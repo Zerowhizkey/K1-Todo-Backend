@@ -1,38 +1,13 @@
-const fs = require("fs/promises");
+const {
+	readJson,
+	writeJson,
+	sendJson,
+	sendCode,
+	deleteJson,
+} = require("./utils");
 
 const http = require("http");
 const port = 5000;
-
-async function readJson(path) {
-	try {
-		const buffer = await fs.readFile(path);
-		return JSON.parse(buffer.toString());
-	} catch (error) {
-		throw error;
-	}
-}
-
-async function writeJson(path, data) {
-	try {
-		const json = JSON.stringify(data);
-		await fs.writeFile(path, json);
-	} catch (error) {
-		throw error;
-	}
-}
-
-function sendJson(res, data) {
-	res.writeHead(200, {
-		"Content-Type": "application/json",
-		"Access-Control-Allow-Origin": "*",
-	});
-	res.end(JSON.stringify(data));
-}
-
-function sendCode(res, code = 500) {
-	res.statusCode = code;
-	res.end();
-}
 
 async function sendTodos(req, res, id = null) {
 	const todos = await readJson("todos.json");
@@ -48,6 +23,11 @@ async function sendTodos(req, res, id = null) {
 				sendCode(res, 201);
 			});
 			break;
+		case "DELETE":
+			deleteJson("todos.json", todos.id);
+
+			break;
+
 		default:
 			if (!id) {
 				sendJson(res, todos);
