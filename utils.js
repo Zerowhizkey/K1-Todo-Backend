@@ -18,15 +18,10 @@ async function writeJson(path, data) {
 	}
 }
 
-async function deleteJson(path, data) {
-	try {
-		await fs.unlink(path, data);
-		console.log(`Deleted ${path}`);
-	} catch (error) {
-		console.error(
-			`Got an error trying to delete the file: ${error.message}`
-		);
-	}
+function getId() {
+	return Number(
+		new Date().getTime().toString() + Math.floor(Math.random() * 1000000)
+	);
 }
 
 function sendJson(res, data) {
@@ -38,6 +33,7 @@ function sendJson(res, data) {
 }
 
 function sendCode(res, code = 500) {
+	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.statusCode = code;
 	res.end();
 }
@@ -47,5 +43,5 @@ module.exports = {
 	writeJson,
 	sendJson,
 	sendCode,
-	deleteJson,
+	getId,
 };

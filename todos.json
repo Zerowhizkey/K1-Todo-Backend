@@ -1,54 +1,107 @@
 [
     {
-        "id": 1,
-        "text": "Gå och veckohandla"
+        "isCompleted": true,
+        "text": "funkar mathrandom saken ?",
+        "id": 1652861854745711000
     },
     {
-        "id": 2,
-        "text": "Gå och veckohandla"
+        "isCompleted": false,
+        "text": "Gå och handla",
+        "id": 1652861928023657000
     },
     {
-        "id": 3,
-        "text": "Gå och veckohandla"
+        "isCompleted": true,
+        "text": "Gå och handla din jäkel",
+        "id": 1652861939327744800
     },
     {
-        "id": 4,
-        "text": "Gå och veckohandla"
+        "isCompleted": true,
+        "text": "huehueuhuehueuhuehuuhu",
+        "id": 1652861952007963000
     },
     {
-        "text": "Fy fan vad grymt, det kanske funkar!",
-        "id": 5
+        "isCompleted": false,
+        "text": "får jag respons?",
+        "id": 1652876556300309800
     },
     {
-        "text": "Kom ihåg att bajsa i toan!",
-        "id": 6
+        "text": "bajskorv",
+        "isCompleted": false,
+        "id": 165287749903056540
     },
     {
-        "id": 7,
-        "text": "Kom ihåg att bajsa i toan!"
+        "text": "bajskorv",
+        "isCompleted": false,
+        "id": 1652877511514465800
     },
     {
-        "id": 8,
-        "text": "Kom ihåg att bajsa i toan!"
+        "text": "bajskorv",
+        "isCompleted": false,
+        "id": 1652877525117388000
     },
     {
-        "id": 9,
-        "text": "Kom ihåg att bajsa i toan!"
+        "text": "bajskorv",
+        "isCompleted": false,
+        "id": 1652877527451687000
     },
     {
-        "id": 10,
-        "text": "hueuheuhe"
+        "text": "bajskorv",
+        "isCompleted": false,
+        "id": 1652877575407908900
     },
     {
-        "id": 11,
-        "text": "hueuheuhe"
+        "text": "bajskorv",
+        "isCompleted": false,
+        "id": 1652877648085965800
     },
     {
-        "id": 12,
-        "text": "hueuheuhe"
+        "text": "bajskorv",
+        "isCompleted": false,
+        "id": 165287765016939420
     },
     {
-        "id": 13,
-        "text": "hueuheuhe"
+        "text": "bajskorv",
+        "isCompleted": false,
+        "id": 1652877651856211700
+    },
+    {
+        "text": "bajskorv",
+        "isCompleted": false,
+        "id": 1652877653580983600
+    },
+    {
+        "text": "bajskorv",
+        "isCompleted": false,
+        "id": 1652877655297998800
+    },
+    {
+        "text": "bajskorv",
+        "isCompleted": false,
+        "id": 1652877656626947000
+    },
+    {
+        "text": "bajskorv",
+        "isCompleted": false,
+        "id": 1652877658101944300
+    },
+    {
+        "text": "",
+        "isCompleted": false,
+        "id": 1652877897529650000
+    },
+    {
+        "text": "hehe",
+        "isCompleted": false,
+        "id": 1652877936668959700
+    },
+    {
+        "text": "hehe",
+        "isCompleted": false,
+        "id": 1652877939622996700
+    },
+    {
+        "text": "hehe",
+        "isCompleted": false,
+        "id": 1652877941086570200
     }
 ]
