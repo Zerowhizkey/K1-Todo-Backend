@@ -1,6 +1,13 @@
 const http = require("http");
 const port = 5000;
-const { readJson, writeJson, sendJson, sendCode, getId } = require("./utils");
+const {
+	readJson,
+	writeJson,
+	sendJson,
+	sendCode,
+	getId,
+	parseJson,
+} = require("./utils");
 
 async function sendTodos(req, res, id = null) {
 	let todos = await readJson("todos.json");
@@ -24,26 +31,36 @@ async function sendTodos(req, res, id = null) {
 
 		case "POST":
 			req.on("data", async (chunk) => {
-				const data = JSON.parse(chunk.toString());
-				if (data.text) {
-					todos.push({
-						id: getId(),
-						text: data.text,
-						isCompleted: false,
-						createdAt: Date.now(),
-						completedAt: 0,
-					});
-					await writeJson("todos.json", todos);
+				const data = parseJson(chunk.toString());
+				if (!data) {
 					sendJson(
 						res,
 						{
-							succes: "Successfully Created",
+							error: "Invalid JSON Format",
 						},
-						201
+						400
 					);
-				} else {
-					sendJson(res, { error: "Data Is Invalid" }, 400);
+					return;
 				}
+				if (!data.text) {
+					sendJson(res, { error: "Data Is Invalid" }, 400);
+					return;
+				}
+				todos.push({
+					id: getId(),
+					text: data.text,
+					isCompleted: false,
+					createdAt: Date.now(),
+					completedAt: 0,
+				});
+				await writeJson("todos.json", todos);
+				sendJson(
+					res,
+					{
+						status: "Successfully Created",
+					},
+					201
+				);
 			});
 
 			break;
@@ -59,7 +76,7 @@ async function sendTodos(req, res, id = null) {
 			sendJson(
 				res,
 				{
-					succes: "Successfully Deleted",
+					status: "Successfully Deleted",
 				},
 				200
 			);
@@ -72,31 +89,23 @@ async function sendTodos(req, res, id = null) {
 					sendJson(res, { error: "Method Not Allowed" }, 405);
 					return;
 				}
-				const data = JSON.parse(chunk.toString());
+				const data = parseJson(chunk.toString());
 				const index = todos.findIndex((todo) => todo.id === id);
-				if (
-					data.text ||
-					typeof data.isCompleted === "boolean" ||
-					typeof data.completedAt === "number"
-				) {
-					if (data.text) {
-						todos[index].text = data.text;
-					}
-					if (typeof data.isCompleted === "boolean") {
-						todos[index].isCompleted = data.isCompleted;
-					}
-					if (typeof data.completedAt === "number") {
-						todos[index].completedAt = data.completedAt;
-					}
-					await writeJson("todos.json", todos);
+				if (!data) {
 					sendJson(
 						res,
 						{
-							succes: "Successfully edited",
+							error: "Invalid JSON Format",
 						},
-						200
+						400
 					);
-				} else {
+					return;
+				}
+				if (
+					!data.text &&
+					typeof data.isCompleted !== "boolean" &&
+					typeof data.completedAt !== "number"
+				) {
 					sendJson(
 						res,
 						{
@@ -104,7 +113,26 @@ async function sendTodos(req, res, id = null) {
 						},
 						400
 					);
+					return;
 				}
+
+				if (data.text) {
+					todos[index].text = data.text;
+				}
+				if (typeof data.isCompleted === "boolean") {
+					todos[index].isCompleted = data.isCompleted;
+				}
+				if (typeof data.completedAt === "number") {
+					todos[index].completedAt = data.completedAt;
+				}
+				await writeJson("todos.json", todos);
+				sendJson(
+					res,
+					{
+						status: "Successfully edited",
+					},
+					200
+				);
 			});
 			break;
 
@@ -114,29 +142,23 @@ async function sendTodos(req, res, id = null) {
 					sendJson(res, { error: "Method not allowed" }, 405);
 					return;
 				}
-				const data = JSON.parse(chunk.toString());
+				const data = parseJson(chunk.toString());
 				const index = todos.findIndex((todo) => todo.id === id);
-
-				if (
-					data.text &&
-					typeof data.isCompleted === "boolean" &&
-					typeof data.completedAt === "number"
-				) {
-					todos[index] = {
-						...todos[index],
-						isCompleted: data.isCompleted,
-						text: data.text,
-						completedAt: data.completedAt,
-					};
-					await writeJson("todos.json", todos);
+				if (!data) {
 					sendJson(
 						res,
 						{
-							succes: "Successfully edited",
+							error: "Invalid JSON Format",
 						},
-						200
+						400
 					);
-				} else {
+					return;
+				}
+				if (
+					!data.text ||
+					typeof data.isCompleted !== "boolean" ||
+					typeof data.completedAt !== "number"
+				) {
 					sendJson(
 						res,
 						{
@@ -144,7 +166,23 @@ async function sendTodos(req, res, id = null) {
 						},
 						400
 					);
+					return;
 				}
+
+				todos[index] = {
+					...todos[index],
+					isCompleted: data.isCompleted,
+					text: data.text,
+					completedAt: data.completedAt,
+				};
+				await writeJson("todos.json", todos);
+				sendJson(
+					res,
+					{
+						status: "Successfully edited",
+					},
+					200
+				);
 			});
 			break;
 
