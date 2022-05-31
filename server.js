@@ -1,5 +1,6 @@
 const http = require("http");
-const port = 5000;
+const port = process.env.PORT || 5000;
+
 const {
 	readJson,
 	writeJson,
